@@ -1,10 +1,19 @@
-import { View, Text } from "react-native";
-import React from "react";
+import React from 'react'
+
+import { StyleSheet, View } from 'react-native'
+
+import { UserStackGroup } from './navigation-groups'
 
 export const Root = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
-};
+	return (
+		<View style={styles.container}>
+			<UserStackGroup />
+		</View>
+	)
+}
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+	},
+})
