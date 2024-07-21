@@ -11,8 +11,16 @@ const UserStack = createStackNavigator<UserParamStack>()
 export const UserStackGroup = () => {
 	return (
 		<UserStack.Navigator screenOptions={{ headerShown: false }}>
-			<UserStack.Screen name={UserRouteKey.Home} component={HomeScreen} />
-			<UserStack.Screen name={UserRouteKey.Info} component={InfoScreen} />
+			<UserStack.Screen
+				name={UserRouteKey.Home}
+				component={HomeScreen}
+				options={{ title: 'Home' }}
+			/>
+			<UserStack.Screen
+				name={UserRouteKey.Info}
+				component={InfoScreen}
+				options={{ title: 'Info' }}
+			/>
 		</UserStack.Navigator>
 	)
 }

@@ -3,7 +3,7 @@ import { UserRouteKey } from '~modules/root/typing'
 
 export type UserParamStack = {
 	[UserRouteKey.Home]: undefined
-	[UserRouteKey.Info]: undefined
+	[UserRouteKey.Info]: { id: number }
 }
 
 export type UserStackNavigation = NavigationProp<UserParamStack>

@@ -10,14 +10,14 @@ export type JustifyMode =
 	| 'space-evenly'
 	| undefined
 
-interface IRow {
+interface RowProps {
 	gap?: number
 	style?: ViewStyle
 	justify?: JustifyMode
 	children: JSX.Element | JSX.Element[]
 }
 
-export const Row: FC<IRow> = ({
+export const Row: FC<RowProps> = ({
 	gap = 0,
 	style = {},
 	justify = 'flex-start',
