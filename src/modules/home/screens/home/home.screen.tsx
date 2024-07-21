@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { ActivityIndicator, Searchbar, useTheme } from 'react-native-paper'
+import { useTheme, ActivityIndicator } from 'react-native-paper'
 
 import { Header } from './atoms'
 import { CountCard, CharacterItem } from './components'
@@ -46,7 +46,7 @@ export const HomeScreen = () => {
 
 	return (
 		<SafeAreaView
-			style={[styles.container, { backgroundColor: colors.scrim }]}>
+			style={[styles.container, { backgroundColor: colors.background }]}>
 			<FlatList
 				data={characters}
 				ListHeaderComponent={() => (
@@ -72,15 +72,6 @@ export const HomeScreen = () => {
 							<CountCard
 								title={genderCount(GenderOptions.Other)}
 								description="Other"
-							/>
-
-							<Searchbar
-								value={''}
-								autoComplete="off"
-								autoCapitalize="none"
-								autoCorrect={false}
-								placeholder="Search"
-								onChangeText={v => console.log(v)}
 							/>
 						</View>
 					</>

@@ -41,7 +41,10 @@ export const CharacterItem: FC<CharacterItemProps> = ({ character }) => {
 	return (
 		<TouchableOpacity
 			activeOpacity={0.6}
-			style={[styles.container, { backgroundColor: colors.background }]}
+			style={[
+				styles.container,
+				{ backgroundColor: colors.surfaceVariant },
+			]}
 			onPress={handleMoreInfo}>
 			<Row gap={5} justify="space-between">
 				<Txt
