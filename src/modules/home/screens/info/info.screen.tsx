@@ -3,8 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import { useTheme, Appbar } from 'react-native-paper'
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native'
 
-import { View, ScrollView, StyleSheet } from 'react-native'
-
 import {
 	Txt,
 	Font,
@@ -12,6 +10,8 @@ import {
 	extractIDFromURL,
 	useLocalStatistic,
 } from '~modules/common'
+import { View, ScrollView, StyleSheet } from 'react-native'
+
 import { getCharacter, getPlanet, IPlanet } from '~modules/home/api'
 import { UserParamStack, UserRouteKey } from '~modules/root/typing'
 
@@ -23,13 +23,13 @@ export const InfoScreen = () => {
 	const { colors } = useTheme()
 	const navigation = useNavigation()
 
-	const [characters, exist, handleLike] = useLocalStatistic(state => [
-		state.characters,
-		state.characterExist,
-		state.appendCharacter,
-	])
-
-	console.log(exist(id) ? 'heart' : 'heart-outline')
+	const [characters, characterExist, handleLike] = useLocalStatistic(
+		state => [
+			state.characters,
+			state.characterExist,
+			state.appendCharacter,
+		],
+	)
 
 	const { data: character, isLoading: isCharacterLoading } = useQuery({
 		queryKey: ['character', id],
@@ -49,7 +49,9 @@ export const InfoScreen = () => {
 						<Appbar.Content title={character.name} />
 
 						<Appbar.Action
-							icon={exist(id) ? 'heart' : 'heart-outline'}
+							icon={
+								characterExist(id) ? 'heart' : 'heart-outline'
+							}
 							color="red"
 							onPress={() =>
 								handleLike({ id: id, gender: character.gender })

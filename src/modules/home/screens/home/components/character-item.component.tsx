@@ -8,13 +8,13 @@ import {
 	Font,
 	extractIDFromURL,
 	useLocalStatistic,
+	defaultGenders,
 } from '~modules/common'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 
 import AwesomeIcons from 'react-native-vector-icons/FontAwesome'
 
 import { ICharacter } from '~modules/home/api/interfaces'
-import { MD3Colors } from 'react-native-paper/lib/typescript/types'
 import { useNavigation } from '@react-navigation/native'
 import { UserRouteKey, UserStackNavigation } from '~modules/root/typing'
 
@@ -24,10 +24,9 @@ interface CharacterItemProps {
 
 export const CharacterItem: FC<CharacterItemProps> = ({ character }) => {
 	const { colors } = useTheme()
-	const styles = characterItemStyles(colors)
 
 	const characterID = useRef(extractIDFromURL(character.url)).current
-	const [exist, handleLike] = useLocalStatistic(state => [
+	const [characterExist, handleLike] = useLocalStatistic(state => [
 		state.characterExist,
 		state.appendCharacter,
 	])
@@ -42,7 +41,7 @@ export const CharacterItem: FC<CharacterItemProps> = ({ character }) => {
 	return (
 		<TouchableOpacity
 			activeOpacity={0.6}
-			style={styles.container}
+			style={[styles.container, { backgroundColor: colors.background }]}
 			onPress={handleMoreInfo}>
 			<Row gap={5} justify="space-between">
 				<Txt
@@ -67,12 +66,14 @@ export const CharacterItem: FC<CharacterItemProps> = ({ character }) => {
 							size={22}
 							color="red"
 							source={
-								exist(characterID) ? 'heart' : 'heart-outline'
+								characterExist(characterID)
+									? 'heart'
+									: 'heart-outline'
 							}
 						/>
 					</TouchableOpacity>
 
-					{['male', 'female'].includes(character.gender) ? (
+					{defaultGenders.includes(character.gender) ? (
 						<AwesomeIcons
 							name={character.gender}
 							color={
@@ -121,12 +122,10 @@ export const CharacterItem: FC<CharacterItemProps> = ({ character }) => {
 	)
 }
 
-const characterItemStyles = (theme: MD3Colors) =>
-	StyleSheet.create({
-		container: {
-			padding: 15,
-			borderRadius: 10,
-			rowGap: 10,
-			backgroundColor: theme.surfaceVariant,
-		},
-	})
+const styles = StyleSheet.create({
+	container: {
+		padding: 15,
+		borderRadius: 10,
+		rowGap: 10,
+	},
+})

@@ -3,17 +3,16 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { ActivityIndicator, Searchbar, useTheme } from 'react-native-paper'
 
-import { Row, useLocalStatistic } from '~modules/common'
+import { Header } from './atoms'
+import { CountCard, CharacterItem } from './components'
+import { Row, GenderOptions, useLocalStatistic } from '~modules/common'
 import { View, FlatList, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Header, CountCard, CharacterItem } from './components'
 
 import { getCharacters, ICharacter } from '~modules/home/api'
-import { MD3Colors } from 'react-native-paper/lib/typescript/types'
 
 export const HomeScreen = () => {
 	const { colors } = useTheme()
-	const styles = themeStyles(colors)
 
 	const [genderCount, handleReset] = useLocalStatistic(state => [
 		state.genderCount,
@@ -31,9 +30,7 @@ export const HomeScreen = () => {
 			setCharacters(oldCharacters => [...oldCharacters, ...data.results])
 			setIsFetchingMore(false)
 		},
-		onError: () => {
-			setIsFetchingMore(false)
-		},
+		onError: () => setIsFetchingMore(false),
 	})
 
 	useEffect(() => {
@@ -48,7 +45,8 @@ export const HomeScreen = () => {
 	}, [data, isFetchingMore])
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView
+			style={[styles.container, { backgroundColor: colors.scrim }]}>
 			<FlatList
 				data={characters}
 				ListHeaderComponent={() => (
@@ -62,17 +60,17 @@ export const HomeScreen = () => {
 							<Row gap={15} style={styles.cardRowContainer}>
 								<CountCard
 									space
-									title={genderCount('male')}
+									title={genderCount(GenderOptions.Male)}
 									description="Male"
 								/>
 								<CountCard
 									space
-									title={genderCount('female')}
+									title={genderCount(GenderOptions.Female)}
 									description="Female"
 								/>
 							</Row>
 							<CountCard
-								title={genderCount('other')}
+								title={genderCount(GenderOptions.Other)}
 								description="Other"
 							/>
 
@@ -108,20 +106,18 @@ export const HomeScreen = () => {
 	)
 }
 
-const themeStyles = (theme: MD3Colors) =>
-	StyleSheet.create({
-		container: {
-			flex: 1,
-			flexGrow: 1,
-			padding: 10,
-			backgroundColor: theme.background,
-		},
-		cardContainer: {
-			flex: 1,
-			rowGap: 15,
-		},
-		cardRowContainer: {
-			marginTop: 20,
-			justifyContent: 'space-between',
-		},
-	})
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		flexGrow: 1,
+		padding: 10,
+	},
+	cardContainer: {
+		flex: 1,
+		rowGap: 15,
+	},
+	cardRowContainer: {
+		marginTop: 20,
+		justifyContent: 'space-between',
+	},
+})

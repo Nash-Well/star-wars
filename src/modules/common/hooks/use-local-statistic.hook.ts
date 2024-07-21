@@ -1,8 +1,8 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-import { Gender } from '../typing'
 import { statisticStore } from '../services'
+import { defaultGenders, Gender, GenderOptions } from '../typing'
 
 export interface IStatistic {
 	id: number
@@ -36,8 +36,8 @@ export const useLocalStatistic = create<IActions & IStates>()(
 
 			appendCharacter: character => {
 				set(state => {
-					if (!['male', 'female'].includes(character.gender)) {
-						character.gender = 'other'
+					if (!defaultGenders.includes(character.gender)) {
+						character.gender = GenderOptions.Other
 					}
 
 					const exist = state.characters.findIndex(

@@ -5,13 +5,13 @@ import { Card, useTheme } from 'react-native-paper'
 
 import { Font, Txt } from '~modules/common'
 
-interface ICountCard {
+interface CountCardProps {
 	space?: boolean
 	title: string
 	description: string
 }
 
-export const CountCard: FC<ICountCard> = ({
+export const CountCard: FC<CountCardProps> = ({
 	space = false,
 	title,
 	description,
