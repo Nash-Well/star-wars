@@ -127,6 +127,15 @@ export const InfoScreen = () => {
 				<Txt mod="md" color={colors.scrim}>
 					Orbital Period: {planet.orbital_period}
 				</Txt>
+				<Txt mod="md" color={colors.scrim}>
+					Population: {planet.population}
+				</Txt>
+				<Txt mod="md" color={colors.scrim}>
+					Surface water: {planet.surface_water}
+				</Txt>
+				<Txt mod="md" color={colors.scrim}>
+					Terrain: {planet.terrain}
+				</Txt>
 			</View>
 		</ScrollView>
 	) : (
