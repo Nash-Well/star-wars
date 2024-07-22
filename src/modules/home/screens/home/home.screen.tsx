@@ -5,7 +5,13 @@ import { useTheme, ActivityIndicator } from 'react-native-paper'
 
 import { Header } from './atoms'
 import { CountCard, CharacterItem } from './components'
-import { Row, GenderOptions, useLocalStatistic } from '~modules/common'
+import {
+	Row,
+	ErrorScreen,
+	LoadingScreen,
+	GenderOptions,
+	useLocalStatistic,
+} from '~modules/common'
 import { View, FlatList, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
@@ -47,52 +53,62 @@ export const HomeScreen = () => {
 	return (
 		<SafeAreaView
 			style={[styles.container, { backgroundColor: colors.background }]}>
-			<FlatList
-				data={characters}
-				ListHeaderComponent={() => (
-					<>
-						<Header
-							titleColor={colors.scrim}
-							handleReset={handleReset}
-						/>
-
-						<View style={styles.cardContainer}>
-							<Row gap={15} style={styles.cardRowContainer}>
-								<CountCard
-									space
-									title={genderCount(GenderOptions.Male)}
-									description="Male"
-								/>
-								<CountCard
-									space
-									title={genderCount(GenderOptions.Female)}
-									description="Female"
-								/>
-							</Row>
-							<CountCard
-								title={genderCount(GenderOptions.Other)}
-								description="Other"
+			{isLoading ? (
+				<LoadingScreen />
+			) : characters.length == 0 ? (
+				<ErrorScreen colors={colors} />
+			) : (
+				<FlatList
+					data={characters}
+					ListHeaderComponent={() => (
+						<>
+							<Header
+								titleColor={colors.scrim}
+								handleReset={handleReset}
 							/>
-						</View>
-					</>
-				)}
-				renderItem={({ item }) => <CharacterItem character={item} />}
-				scrollEventThrottle={16}
-				showsVerticalScrollIndicator={false}
-				onEndReached={handleEndReached}
-				onEndReachedThreshold={0.1}
-				initialNumToRender={10}
-				contentContainerStyle={{ rowGap: 15 }}
-				bounces={false}
-				ListFooterComponent={() =>
-					isLoading || isFetchingMore ? (
-						<ActivityIndicator
-							size="large"
-							color={colors.primary}
-						/>
-					) : null
-				}
-			/>
+
+							<View style={styles.cardContainer}>
+								<Row gap={15} style={styles.cardRowContainer}>
+									<CountCard
+										space
+										title={genderCount(GenderOptions.Male)}
+										description="Male"
+									/>
+									<CountCard
+										space
+										title={genderCount(
+											GenderOptions.Female,
+										)}
+										description="Female"
+									/>
+								</Row>
+								<CountCard
+									title={genderCount(GenderOptions.Other)}
+									description="Other"
+								/>
+							</View>
+						</>
+					)}
+					renderItem={({ item }) => (
+						<CharacterItem character={item} />
+					)}
+					scrollEventThrottle={16}
+					showsVerticalScrollIndicator={false}
+					onEndReached={handleEndReached}
+					onEndReachedThreshold={0.1}
+					initialNumToRender={10}
+					contentContainerStyle={{ rowGap: 15 }}
+					bounces={false}
+					ListFooterComponent={() =>
+						isLoading || isFetchingMore ? (
+							<ActivityIndicator
+								size="large"
+								color={colors.primary}
+							/>
+						) : null
+					}
+				/>
+			)}
 		</SafeAreaView>
 	)
 }
